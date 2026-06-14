@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { authApi } from '@/services/api';
 import type { 
   User, 
   Course, 
@@ -16,6 +17,7 @@ import type {
 // Auth Store
 interface AuthState {
   user: User | null;
+  token: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
@@ -36,50 +38,77 @@ export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       user: null,
+      token: null,
       isAuthenticated: false,
       isLoading: false,
-      login: async (email, _password) => {
+
+      login: async (email, password) => {
         set({ isLoading: true });
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        const mockUser: User = {
-          id: '1',
-          email,
-          firstName: 'Alex',
-          lastName: 'Johnson',
-          role: 'student',
-          avatar: 'https://i.pravatar.cc/150?u=1',
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        };
-        set({ user: mockUser, isAuthenticated: true, isLoading: false });
+        try {
+          const { data: res } = await authApi.login(email, password);
+          const dto = res.data;
+          set({
+            token: dto.token,
+            isAuthenticated: true,
+            isLoading: false,
+            user: {
+              id: dto.userId,
+              email: dto.email,
+              firstName: dto.name.split(' ')[0] ?? dto.name,
+              lastName: dto.name.split(' ').slice(1).join(' ') ?? '',
+              role: dto.role.toLowerCase() as 'student' | 'teacher' | 'admin',
+              avatar: dto.avatarUrl ?? undefined,
+              createdAt: new Date(),
+              updatedAt: new Date(),
+            },
+          });
+        } catch (err) {
+          set({ isLoading: false });
+          throw err;
+        }
       },
+
       logout: () => {
-        set({ user: null, isAuthenticated: false });
+        set({ user: null, token: null, isAuthenticated: false });
       },
+
       register: async (data) => {
         set({ isLoading: true });
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        const mockUser: User = {
-          id: '2',
-          email: data.email,
-          firstName: data.firstName,
-          lastName: data.lastName,
-          role: data.role,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        };
-        set({ user: mockUser, isAuthenticated: true, isLoading: false });
+        try {
+          const { data: res } = await authApi.register(
+            `${data.firstName} ${data.lastName}`,
+            data.email,
+            data.password
+          );
+          const dto = res.data;
+          set({
+            token: dto.token,
+            isAuthenticated: true,
+            isLoading: false,
+            user: {
+              id: dto.userId,
+              email: dto.email,
+              firstName: data.firstName,
+              lastName: data.lastName,
+              role: dto.role.toLowerCase() as 'student' | 'teacher' | 'admin',
+              avatar: dto.avatarUrl ?? undefined,
+              createdAt: new Date(),
+              updatedAt: new Date(),
+            },
+          });
+        } catch (err) {
+          set({ isLoading: false });
+          throw err;
+        }
       },
+
       updateUser: (userData) => {
         set((state) => ({
           user: state.user ? { ...state.user, ...userData } : null,
         }));
       },
     }),
-    {
-      name: 'auth-storage',
-    }
+    { name: 'auth-storage' }
   )
 );
 
