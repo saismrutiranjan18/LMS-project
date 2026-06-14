@@ -1,0 +1,301 @@
+/* Global Styles */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500&display=swap');
+
+:root {
+  --primary-blue: #0056D1;
+  --dark-blue: #002A6C;
+  --light-blue: #E6F0FF;
+  --accent-orange: #FF6B35;
+  --success-green: #28A745;
+  --background: #F8FAFC;
+  --white: #FFFFFF;
+  --text-dark: #1A202C;
+  --text-light: #718096;
+  --custom-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --fluid-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--background);
+  color: var(--text-dark);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 700;
+}
+
+.accent-font {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--light-blue);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-blue);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--dark-blue);
+}
+
+/* Glass Effect */
+.glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Gradient Background */
+.gradient-bg {
+  background: linear-gradient(135deg, var(--light-blue) 0%, var(--white) 50%, var(--light-blue) 100%);
+  background-size: 400% 400%;
+  animation: gradientShift 20s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Floating Animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.floating {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Pulse Glow */
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 5px rgba(0, 86, 209, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(0, 86, 209, 0.6); }
+}
+
+.pulse-glow {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+/* Card Hover Effect */
+.card-hover {
+  transition: all 0.3s var(--custom-expo);
+}
+
+.card-hover:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* 3D Card Tilt */
+.tilt-card {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+/* Progress Bar Animation */
+@keyframes progressFill {
+  from { width: 0%; }
+  to { width: var(--progress); }
+}
+
+.progress-animated {
+  animation: progressFill 1s var(--custom-expo) forwards;
+}
+
+/* Stagger Animation */
+.stagger-item {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.stagger-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.5s var(--custom-expo);
+}
+
+/* Magnetic Button Effect */
+.magnetic-btn {
+  transition: transform 0.2s ease-out;
+}
+
+/* Text Reveal Animation */
+@keyframes textReveal {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.text-reveal {
+  animation: textReveal 0.8s var(--custom-expo) forwards;
+}
+
+/* Number Counter Animation */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Confetti Animation */
+@keyframes confetti {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
+}
+
+.confetti-particle {
+  animation: confetti 1s ease-out forwards;
+}
+
+/* Liquid Fill Effect */
+@keyframes liquidFill {
+  0% { clip-path: inset(100% 0 0 0); }
+  100% { clip-path: inset(0 0 0 0); }
+}
+
+/* Badge Flip */
+.badge-flip {
+  transform-style: preserve-3d;
+  transition: transform 0.6s var(--custom-expo);
+}
+
+.badge-flip:hover {
+  transform: rotateY(360deg);
+}
+
+/* Timeline Pulse */
+@keyframes timelinePulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.timeline-pulse {
+  animation: timelinePulse 2s ease-in-out infinite;
+}
+
+/* Heart Fill Animation */
+@keyframes heartFill {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+.heart-fill {
+  animation: heartFill 0.3s var(--fluid-bounce);
+}
+
+/* Slide In Animations */
+@keyframes slideInLeft {
+  from { transform: translateX(-50px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(50px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInUp {
+  from { transform: translateY(50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideInDown {
+  from { transform: translateY(-50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Fade In */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Scale In */
+@keyframes scaleIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.scale-in {
+  animation: scaleIn 0.3s var(--custom-expo) forwards;
+}
+
+/* Ring Animation for Bell */
+@keyframes ring {
+  0%, 100% { transform: rotate(0); }
+  10%, 30%, 50%, 70%, 90% { transform: rotate(15deg); }
+  20%, 40%, 60%, 80% { transform: rotate(-15deg); }
+}
+
+.ring-animation {
+  animation: ring 0.5s ease-in-out;
+}
+
+/* Responsive Utilities */
+@media (max-width: 768px) {
+  .hide-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .hide-desktop {
+    display: none !important;
+  }
+}
+
+/* Loading Skeleton */
+@keyframes skeleton {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeleton 1.5s infinite;
+}
+
+/* Focus Styles */
+input:focus, button:focus, a:focus {
+  outline: 2px solid var(--primary-blue);
+  outline-offset: 2px;
+}
+
+/* Selection Color */
+::selection {
+  background: var(--primary-blue);
+  color: white;
+}
