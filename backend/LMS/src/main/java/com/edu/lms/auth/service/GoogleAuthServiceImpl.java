@@ -33,11 +33,6 @@ public class GoogleAuthServiceImpl {
     private static final String TOKEN_URL   = "https://oauth2.googleapis.com/token";
     private static final String USER_INFO_URL = "https://www.googleapis.com/oauth2/v3/userinfo";
 
-    /**
-     * Full Google OAuth2 code-exchange flow.
-     * Controller calls this with the ?code= param from Google's redirect.
-     * Returns a signed JWT for our own app.
-     */
     public String login(String code) {
         String accessToken = exchangeCodeForToken(code);
         Map<String, Object> userInfo = fetchUserInfo(accessToken);
