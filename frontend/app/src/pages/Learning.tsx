@@ -9,13 +9,8 @@ import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent } from '@/components/ui/card';
-import {
-  curriculumApi,
-  enrollmentApi,
-  CurriculumDto,
-  LessonCurriculumDto,
-  ModuleCurriculumDto,
-} from '@/services/api';
+import { curriculumApi, enrollmentApi } from '@/services/api';
+import type { CurriculumDto, LessonCurriculumDto, ModuleCurriculumDto } from '@/services/api';
 import { toast } from 'sonner';
 
 export default function Learning() {
