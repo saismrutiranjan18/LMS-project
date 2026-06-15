@@ -1,5 +1,6 @@
 package com.edu.lms.course.entity;
 
+import com.edu.lms.enrollment.entity.Enrollment;
 import com.edu.lms.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -58,6 +59,13 @@ public class Course {
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Builder.Default
     private List<CourseModule> modules = new ArrayList<>();
+
+    @OneToMany(
+            mappedBy = "course",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Enrollment> enrollments;
 
     @Builder.Default
     private Integer totalLessons = 0;

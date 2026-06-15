@@ -40,6 +40,7 @@ public class Enrollment {
     @Builder.Default
     private EnrollmentStatus status = EnrollmentStatus.ACTIVE;
 
+
     @PrePersist
     protected void onCreate() {
         enrolledAt = LocalDateTime.now();
