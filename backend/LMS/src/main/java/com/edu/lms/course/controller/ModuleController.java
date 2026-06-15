@@ -5,7 +5,6 @@ import com.edu.lms.course.dto.CreateModuleRequest;
 import com.edu.lms.course.dto.ModuleDto;
 import com.edu.lms.course.dto.UpdateModuleRequest;
 import com.edu.lms.course.service.ModuleService;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

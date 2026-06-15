@@ -10,6 +10,7 @@ import com.edu.lms.common.response.ApiResponse;
 import com.edu.lms.common.util.JwtUtil;
 import com.edu.lms.user.entity.User;
 import com.edu.lms.user.repository.UserRepository;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +19,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
+
 
 @RestController
 @RequestMapping("/api/auth")
@@ -67,7 +70,7 @@ public class AuthController {
 
     @PostMapping("/register/local")
     public ResponseEntity<ApiResponse<AuthResponse>> registerLocal(
-            @RequestBody LocalRegisterRequest request) {
+           @Valid @RequestBody LocalRegisterRequest request) {
 
         if (userRepository.existsByEmail(request.email())) {
             throw new BusinessException("An account with this email already exists");
@@ -98,5 +101,8 @@ public class AuthController {
                 .build();
     }
 
-    public record LocalRegisterRequest(String name, String email, String password) {}
+    public record LocalRegisterRequest(
+            @NotBlank(message = "Name is required") String name,
+            @NotBlank(message = "Email is required") String email,
+            @NotBlank(message = "Password is required") String password) {}
 }
