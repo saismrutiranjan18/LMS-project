@@ -5,6 +5,7 @@ import com.edu.lms.course.dto.CourseDto;
 import com.edu.lms.course.dto.CreateCourseRequest;
 import com.edu.lms.course.dto.UpdateCourseRequest;
 import com.edu.lms.course.service.CourseService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,8 @@ public class CourseController {
 
     private final CourseService courseService;
 
+
+    @Operation(summary = "Create the course")
     @PostMapping
     public ApiResponse<CourseDto> createCourse(
             @RequestBody CreateCourseRequest request) {
@@ -27,6 +30,7 @@ public class CourseController {
                 courseService.createCourse(request));
     }
 
+    @Operation(summary = "get all published courses")
     @GetMapping
     public ApiResponse<List<CourseDto>> getCourses() {
 
@@ -35,6 +39,8 @@ public class CourseController {
                 courseService.getAllPublishedCourses());
     }
 
+
+    @Operation(summary = "get the course by id")
     @GetMapping("/{id}")
     public ApiResponse<CourseDto> getCourse(
             @PathVariable UUID id) {
@@ -45,6 +51,7 @@ public class CourseController {
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "update the course by id")
     public ApiResponse<CourseDto> updateCourse(
             @PathVariable UUID id,
             @RequestBody UpdateCourseRequest request) {
@@ -55,6 +62,7 @@ public class CourseController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "delete the course by id")
     public ApiResponse<String> deleteCourse(
             @PathVariable UUID id) {
 
@@ -66,6 +74,7 @@ public class CourseController {
     }
 
     @PostMapping("/{id}/publish")
+    @Operation(summary = "publish course")
     public ApiResponse<CourseDto> publishCourse(
             @PathVariable UUID id) {
 

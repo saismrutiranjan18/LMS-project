@@ -63,8 +63,8 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     @Transactional(readOnly = true)
-    public QuizDto getQuizById(UUID quizId) {
-        return mapToDto(findQuiz(quizId));
+    public QuizDto getQuizById(UUID id) {
+        return mapToDto(findQuiz(id));
     }
 
     @Override
@@ -250,7 +250,7 @@ public class QuizServiceImpl implements QuizService {
         User student = requireCurrentUser();
         findQuiz(quizId);
         return attemptRepository
-                .findByStudentIdAndQuizIdOrderByStartedAtDesc(student.getId(), quizId)
+                .findWithQuizByStudentIdAndQuizId(student.getId(), quizId)
                 .stream()
                 .map(a -> AttemptResultDto.builder()
                         .attemptId(a.getId())
@@ -270,7 +270,7 @@ public class QuizServiceImpl implements QuizService {
     // ── Helpers ───────────────────────────────────────────────────────────
 
     private Quiz findQuiz(UUID id) {
-        return quizRepository.findById(id)
+        return quizRepository.findWithLessonById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Quiz not found"));
     }
 

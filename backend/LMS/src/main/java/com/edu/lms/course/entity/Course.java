@@ -61,12 +61,10 @@ public class Course {
     @Builder.Default
     private List<CourseModule> modules = new ArrayList<>();
 
-    @OneToMany(
-            mappedBy = "course",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<Enrollment> enrollments;
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<Enrollment> enrollments = new ArrayList<>();
+
 
     @Builder.Default
     private Integer totalLessons = 0;

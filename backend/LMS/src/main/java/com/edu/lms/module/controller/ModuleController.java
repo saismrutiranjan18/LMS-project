@@ -5,6 +5,7 @@ import com.edu.lms.module.dto.CreateModuleRequest;
 import com.edu.lms.module.dto.ModuleDto;
 import com.edu.lms.module.dto.UpdateModuleRequest;
 import com.edu.lms.module.service.ModuleService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,7 @@ public class ModuleController {
     private final ModuleService moduleService;
 
     @PostMapping("/{courseId}/modules")
+    @Operation(summary = "create module within the course")
     public ApiResponse<ModuleDto> createModule(
             @PathVariable UUID courseId,
             @RequestBody CreateModuleRequest request) {
@@ -30,6 +32,7 @@ public class ModuleController {
     }
 
     @PutMapping("/{courseId}/modules/{moduleId}")
+    @Operation(summary = "update module with id")
     public ApiResponse<ModuleDto> updateModule(
             @PathVariable UUID moduleId,
             @RequestBody UpdateModuleRequest request) {
@@ -41,6 +44,7 @@ public class ModuleController {
                         request));
     }
 
+    @Operation(summary = "delete module within the course")
     @DeleteMapping("/{courseId}/modules/{moduleId}")
     public ApiResponse<String> deleteModule(
             @PathVariable UUID moduleId) {

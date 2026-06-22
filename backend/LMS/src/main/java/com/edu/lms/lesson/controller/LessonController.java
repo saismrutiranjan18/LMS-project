@@ -5,6 +5,7 @@ import com.edu.lms.lesson.dto.CreateLessonRequest;
 import com.edu.lms.lesson.dto.LessonDto;
 import com.edu.lms.lesson.dto.UpdateLessonRequest;
 import com.edu.lms.lesson.service.LessonService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,7 @@ public class LessonController {
     private final LessonService lessonService;
 
     @PostMapping("/api/v1/modules/{moduleId}/lessons")
+    @Operation(summary = "create the course with the course module with id")
     public ApiResponse<LessonDto> createLesson(
             @PathVariable UUID moduleId,
             @RequestBody CreateLessonRequest request) {
@@ -29,6 +31,7 @@ public class LessonController {
     }
 
     @PutMapping("/api/v1/lessons/{id}")
+    @Operation(summary = "update the lesson with id")
     public ApiResponse<LessonDto> updateLesson(
             @PathVariable UUID id,
             @RequestBody UpdateLessonRequest request) {
@@ -41,6 +44,7 @@ public class LessonController {
     }
 
     @DeleteMapping("/api/v1/lessons/{id}")
+    @Operation(summary = "delete the course with id")
     public ApiResponse<String> deleteLesson(
             @PathVariable UUID id) {
 
@@ -52,6 +56,7 @@ public class LessonController {
     }
 
     @GetMapping("/api/v1/lessons/{id}")
+    @Operation(summary = "get the lesson with id")
     public ApiResponse<LessonDto> getLesson(
             @PathVariable UUID id) {
 

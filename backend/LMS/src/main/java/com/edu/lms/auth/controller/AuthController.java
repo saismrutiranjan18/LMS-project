@@ -10,6 +10,7 @@ import com.edu.lms.common.response.ApiResponse;
 import com.edu.lms.common.util.JwtUtil;
 import com.edu.lms.user.entity.User;
 import com.edu.lms.user.repository.UserRepository;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -37,12 +38,17 @@ public class AuthController {
     // ===== Existing OAuth2 endpoints (unchanged) =====
 
     @PostMapping("/register")
-    public User registerOAuth2User(@RequestBody RegisterRequest request) {
-        return oAuth2UserService.registerNewOAuth2User(
+    @Operation(summary = "register as a oath2 user")
+    public ResponseEntity<ApiResponse> registerOAuth2User(
+            @RequestBody @Valid RegisterRequest request) {
+        User user = oAuth2UserService.registerNewOAuth2User(
                 request.getEmail(), request.getName(),
                 request.getProviderId(), request.getAvatarUrl());
+        return ResponseEntity.ok(ApiResponse.success("Registered", buildAuthResponse(user)));
     }
 
+
+    @Operation(summary = "login using google")
     @PostMapping("/google/login")
     public String loginWithGoogle(@RequestParam String code) {
         return googleAuthService.login(code);
@@ -51,6 +57,7 @@ public class AuthController {
     // ===== NEW: local email/password login =====
 
     @PostMapping("/login")
+    @Operation(summary = "login with credential")
     public ResponseEntity<ApiResponse<AuthResponse>> login(
             @RequestBody LoginRequest request) {
 
@@ -69,6 +76,7 @@ public class AuthController {
     // ===== NEW: local email/password registration =====
 
     @PostMapping("/register/local")
+    @Operation(summary = "local registration")
     public ResponseEntity<ApiResponse<AuthResponse>> registerLocal(
            @Valid @RequestBody LocalRegisterRequest request) {
 

@@ -33,7 +33,7 @@ public class CurriculumServiceImpl implements CurriculumService {
     @Transactional(readOnly = true)
     public CurriculumDto getCurriculum(UUID courseId) {
 
-        Course course = courseRepository.findById(courseId)
+        Course course = courseRepository.findWithModulesAndLessonsById(courseId)
                 .orElseThrow(() -> new ResourceNotFoundException("Course not found"));
 
         // Check if current caller is an enrolled student

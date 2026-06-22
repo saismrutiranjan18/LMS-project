@@ -109,23 +109,13 @@ public class LessonServiceImpl implements LessonService {
     // ── helpers ──────────────────────────────────────────────────────────────
 
     private void updateCourseStats(Course course) {
-        int totalLessons = 0;
-        int totalDuration = 0;
-
-        for (CourseModule module : course.getModules()) {
-            List<Lesson> lessons = lessonRepository.findByModuleId(module.getId());
-            totalLessons += lessons.size();
-            totalDuration += lessons.stream()
-                    .mapToInt(l -> l.getDurationMinutes() == null ? 0 : l.getDurationMinutes())
-                    .sum();
-        }
-
-        course.setTotalLessons(totalLessons);
-        course.setTotalDurationMinutes(totalDuration);
+        Object[] result = lessonRepository.aggregateByCourseId(course.getId());
+        course.setTotalLessons(((Long) result[0]).intValue());
+        course.setTotalDurationMinutes(result[1] != null ? ((Long) result[1]).intValue() : 0);
         courseRepository.save(course);
     }
 
-    // Same helper that CurriculumServiceImpl has — reads from SecurityContext
+    // Same helper that CurriculumServiceImpl has — reads from SecurityContext to user details
     private Optional<UUID> getCurrentUserId() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
